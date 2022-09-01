@@ -23,7 +23,7 @@ import com.golflearn.service.LessonService;
 class LessonRepositoryTest {
 
 	@Autowired
-	private LessonOracleRepository repository;
+	private LessonRepository repository;
 	
 	@Autowired
 	private LessonService lessonService;

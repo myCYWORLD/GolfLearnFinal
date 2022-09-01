@@ -97,12 +97,11 @@ class UserInfoRepositoryTest {
 	@Test
 	void testselectByUserIdAndPhone() throws FindException {
 		String userId = "zzeonsh@gmail.com";
-		String userPhone = "010-4465-9015";
-		
-		String expectedUserPhone = "010-4465-9015";
+		String userPhone = "010-7186-5611";
 		
 		UserInfo userInfo = repository.selectByUserIdAndPhone(userId, userPhone);
-		assertNotNull(userInfo);
+		
+		String expectedUserPhone = "010-7186-5611";
 		assertEquals(expectedUserPhone, userInfo.getUserPhone());
 	}
 	
