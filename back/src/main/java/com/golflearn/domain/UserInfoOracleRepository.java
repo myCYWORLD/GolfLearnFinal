@@ -9,7 +9,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.golflearn.dto.Message;
 import com.golflearn.dto.ProInfo;
 import com.golflearn.dto.UserInfo;
 import com.golflearn.exception.AddException;
@@ -157,7 +156,7 @@ public class UserInfoOracleRepository implements UserInfoRepository {
 		}
 	}
 	
-	//비밀번호 찾기(핸드폰번호 조회)
+	//핸드폰번호 조회
 	@Override
 	public UserInfo selectByUserIdAndPhone(String userId, String userPhone) throws FindException {
 		UserInfo userInfo = null;
@@ -171,13 +170,7 @@ public class UserInfoOracleRepository implements UserInfoRepository {
 			userInfo = session.selectOne("com.golflearn.mapper.UserInfoMapper.selectByUserIdAndPhone",hashMap);
 
 			if (userInfo == null) {
-				throw new FindException("정보조회 실패");
-			}else {
-				Message message = new Message();
-				message.setTo(userInfo.getUserPhone());
-				message.setContent("GolfLearn[인증번호]" +  );
-				smsservice호출
-				
+				throw new FindException("정보조회 실패");		
 			}
 			return userInfo;
 		}catch(Exception e) {
