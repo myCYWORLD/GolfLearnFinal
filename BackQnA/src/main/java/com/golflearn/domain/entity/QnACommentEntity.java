@@ -19,6 +19,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,15 +29,13 @@ import lombok.Setter;
 
 @NoArgsConstructor 
 @AllArgsConstructor 
-@Setter @Getter 
-@EqualsAndHashCode
-
-@Entity
+@Getter 
+@Setter
+@Builder
 @Table(name = "qna_comment")
-//@IdClass(QnACommentId.class)
-
 @DynamicInsert 
 @DynamicUpdate
+@Entity
 public class QnACommentEntity {
 	@Id
 	@Column(name = "qna_cmt_no")
@@ -58,6 +57,6 @@ public class QnACommentEntity {
 //2. 자식쪽 1:1	
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name = "qna_cmt_no")//insertable = false, updatable = false, nullable = true)
-	@MapsId(value =  "boardNo")
+	@MapsId(value =  "boardNo")  //부모클래스를 참조한다.
 	private QnABoardEntity board;
 }
