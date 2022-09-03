@@ -18,6 +18,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ import lombok.Setter;
 @AllArgsConstructor 
 @Setter @Getter 
 @EqualsAndHashCode(of= {"boardNo"})
-
+@Builder
 @Entity
 @Table(name = "qna_board")
 @SequenceGenerator(name = "qna_board_no_seq_generator",
@@ -54,7 +55,7 @@ public class QnABoardEntity {
 	private String boardContent;
 	
 	@Column(name = "user_nickname")
-	private String userNickName;
+	private String userNickname;
 	
 	@JsonFormat(pattern = "yy/MM/dd", timezone ="Asia/Seoul")
 	@Column(name = "qna_board_dt")                                             
@@ -62,7 +63,7 @@ public class QnABoardEntity {
 	private Date qnaBoardDt;
 	
 	@Column(name = "qna_board_secret")
-	private int qnaBoardSecret;
+	private Integer qnaBoardSecret;
 	
 	
 	//1. 부모쪽 1:N	
