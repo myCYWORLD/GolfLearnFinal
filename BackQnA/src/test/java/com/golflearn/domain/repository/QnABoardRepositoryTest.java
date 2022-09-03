@@ -2,7 +2,9 @@ package com.golflearn.domain.repository;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.golflearn.domain.entity.QnABoardEntity;
 import com.golflearn.domain.entity.QnACommentEntity;
-import com.golflearn.dto.QnABoardDto;
 @SpringBootTest
 class QnABoardRepositoryTest {
 
@@ -35,7 +36,7 @@ class QnABoardRepositoryTest {
 		b.setBoardTitle("문의사항 등록 테스트");
 		b.setBoardContent("b_content1");
 		b.setQnaBoardDt(new Date(System.currentTimeMillis()));
-		b.setUserNickName("가나다");
+		b.setUserNickname("가나다");
 		b.setQnaBoardSecret(1);
 		boardRepo.save(b);
 	}
@@ -82,19 +83,24 @@ class QnABoardRepositoryTest {
 		});
 	}
 	
-	@Test
-	//공개글 보기
-	void testFindByOpenPost() {
-		int currentPage = 1;
-		int cntPerPage = 3;
-		int endRow = currentPage * cntPerPage;
-		int startRow = endRow - cntPerPage + 1;
-		List<QnABoardEntity> list = boardRepo.findByOpenPost(startRow, endRow);
-		list.forEach((b)->{
-			logger.error(b.toString());
-		});
-
-	}
+//	@Test
+//	//공개글리스트(필터) 보기
+//	void testFindByOpenPost() {
+//		int currentPage = 1;
+//		int cntPerPage = 3;
+//		int endRow = currentPage * cntPerPage;
+//		int startRow = endRow - cntPerPage + 1;
+//		List<Object[]> list = boardRepo.findByOpenPost(startRow, endRow);
+//		List<QnABoardEntity> listEntity = new ArrayList<>();
+//		list.forEach((arr)->{
+//			logger.error("0:" + arr[0] + ", 1:"+ arr[1]);
+//			QnABoardEntity entity = new QnABoardEntity();
+//			entity.setBoardNo(   ((BigDecimal)arr[1]).longValue()     );
+//			entity.setBoardTitle((String)arr[2]);
+//			listEntity.add(entity);
+//		});
+//		logger.error("entity:" + listEntity);
+//	}
 	
 	@Test
 	@Transactional
@@ -113,5 +119,19 @@ class QnABoardRepositoryTest {
 	void testDeleteById() {
 		Long boardNo = 3L;
 		boardRepo.deleteById(boardNo);
+	}
+	
+	@Test
+	//닉네임으로 찾기
+	void testFindByNickname( ) {
+		String nicknameWord = "데";
+		int currentPage = 1;
+		int cntPerPage = 5;
+		int endRow = currentPage * cntPerPage;
+		int startRow = endRow - cntPerPage + 1;
+		List<QnABoardEntity> list = boardRepo.findByNickname(nicknameWord, startRow, endRow);
+		list.forEach((b)->{
+			logger.error(b.toString());
+		});
 	}
 }
