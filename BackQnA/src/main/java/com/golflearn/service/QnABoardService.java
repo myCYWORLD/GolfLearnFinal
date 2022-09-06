@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import com.golflearn.dto.QnACommentDto;
 import com.golflearn.exception.AddException;
 import com.golflearn.exception.FindException;
 import com.golflearn.exception.ModifyException;
+import com.golflearn.exception.RemoveException;
 
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
@@ -234,17 +237,39 @@ public class QnABoardService {
 	 * 게시글을 삭제한다
 	 * @param boardNo
 	 */
-	public void deleteBoard(Long boardNo) {
-
-
+	//	@Transactional
+	public void deleteBoard(Long boardNo) throws RemoveException {
+		//DB에 findbyid로 boardNo가 있는지 찾아서 entity타입의 qd에 담는다
+		Optional<QnABoardEntity> optB = boardRepo.findById(boardNo);
+		if (optB.isPresent()) {
+//			QnABoardEntity qe = optB.get();
+			boardRepo.deleteById(boardNo);
+//			qe = QnABoardEntity .builder()
+//					.boardNo(qe.getBoardNo())
+//					.boardContent(qe.getBoardContent())
+//					.boardTitle(qe.getBoardContent())
+//					.qnaBoardDt(qe.getQnaBoardDt())
+//					.userNickname(qe.getUserNickname())
+//					.qnaBoardSecret(qe.getQnaBoardSecret())
+//					.comment(qe.getComment())
+//					.build();
+		}else {
+			throw new RemoveException("글이 없습니다");
+		}
 	}
-
+	
 	/**
 	 * 답변을 삭제한다(관리자만 가능)
 	 * @param commentNo
+	 * @throws RemoveException 
 	 */
-	public void deleteComment(Long commentNo) {
-
+	public void deleteComment(Long commentNo) throws RemoveException {
+		Optional<QnACommentEntity> optB = commentRepo.findById(commentNo);
+		if (optB.isPresent()) {
+			commentRepo.deleteById(commentNo);
+		}else {
+			throw new RemoveException("답변을 삭제할 수 없습니다");
+		}
 	}
 
 }
